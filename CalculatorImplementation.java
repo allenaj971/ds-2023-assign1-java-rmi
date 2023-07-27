@@ -42,6 +42,21 @@ public class CalculatorImplementation implements Calculator{
         return x;
     }
 
+    private int lcm(int x, int y)
+    {
+        return x * (y / gcd(x,y));
+    }
+
+    private int vectorLCM(Vector<Integer>arr)
+    {
+        int ans = Integer.MIN_VALUE;
+
+        for (int i = 0; i < arr.size(); i++) {
+            ans = lcm(ans, arr.get(i));
+        }
+        return ans;
+    }
+
     private int vectorGCD(Vector<Integer>arr)
     {   
         int ans = Integer.MIN_VALUE;
@@ -84,7 +99,7 @@ public class CalculatorImplementation implements Calculator{
                 case "gcd":
                     values.push(vectorGCD(temp));
                 case "lcm":
-                    values.push(null);
+                    values.push(vectorLCM(temp));
                 default:
                     break;
         }

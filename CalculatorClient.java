@@ -31,6 +31,14 @@ public class CalculatorClient {
 			stub.pushOperation("gcd");
 			int response3 = stub.pop();
 			System.out.println("gcd" + ":" + response3);
+
+			stub.pushValue(2389);
+			stub.pushValue(2323);
+			stub.pushValue(3440);
+			stub.pushOperation("gcd");
+			int response4 = stub.pop();
+			System.out.println("gcd" + ":" + response4);
+			
 		} catch (Exception e) {
 			System.err.println("CalculatorClient exception: " + e.toString());
 			e.printStackTrace();
