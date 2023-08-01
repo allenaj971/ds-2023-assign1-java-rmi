@@ -1,7 +1,6 @@
-compile: Calculator.java Implementation.java Client.java Server.java
-	rm *.class 
-	javac -d ./ Calculator.java Client.java Server.java Implementation.java
-	java -cp ./ Server &
+compile: Calculator.java CalculatorImplementation.java CalculatorClient.java CalculatorServer.java
+	javac -d ./ Calculator.java CalculatorServer.java CalculatorImplementation.java CalculatorClient.java
+	java -cp ./ CalculatorServer &
 
 registry:
 	rmiregistry &
@@ -9,5 +8,5 @@ registry:
 clean:
 	rm *.class
 
-client: Client.class
-	java -cp ./ Client &
+client: CalculatorClient.class
+	java -cp ./ CalculatorClient &

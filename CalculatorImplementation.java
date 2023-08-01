@@ -1,21 +1,20 @@
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.Collections;
 
-public class Implementation implements Calculator{
+public class CalculatorImplementation implements Calculator {
     // implementation for interface
-    private ArrayList<Integer> values = new ArrayList<>();
+    // using arraylist as stack
+    private Stack<Integer> values = new Stack<>();
 
-    // PRIVATE METHODS FOR THE pushPop METHODS
-    public Implementation() throws RemoteException{
+    // Constructor 
+    public CalculatorImplementation() throws RemoteException{
         super();
     };
-
-    public ArrayList<Integer> debug()
-    {
-        return this.values;
-    }
+    // PRIVATE METHODS FOR THE pushPop METHODS
+    // these private methods are helper functions
+    // which perform the calculations such min, max, lcm 
+    // & gcd operations on the Stack<Integer> values.
 
     // this is the helper function for the vectorGCD
     // function. This will help find the global 
@@ -40,15 +39,15 @@ public class Implementation implements Calculator{
     }
 
     // LCM calculates the least common multiple of an
-    // arraylist of integers 
-    private static int lcm(ArrayList<Integer>arr)
+    // Stack of integers 
+    private static int lcm(Stack<Integer>arr)
     {
         // we have the lcm set to -1 if 
         // array is null
         int ans = arr.get(0);
         // we calculate the lcm of the answer
         // and the next avaliable element in
-        // the arraylist
+        // the Stack
         for (int i = 1; i < arr.size(); i++) {
             // calculate the lcm of the current lcm 
             // and next element using the lcmHelper 
@@ -61,7 +60,7 @@ public class Implementation implements Calculator{
     // this function calculates the greatest common divisor 
     // of the array by finding the gcd of the current gcd with 
     // the next avaliable element in the array 
-    private static int gcd(ArrayList<Integer>arr)
+    private static int gcd(Stack<Integer>arr)
     {   
         int ans = arr.get(0);
         for (int i = 1; i < arr.size(); i++) {
@@ -79,6 +78,7 @@ public class Implementation implements Calculator{
     // PROBLEMATIC PART
     public void pushOperation(String operator)
     {
+        // initialise answer
         int ans;
         if(operator.contains("min"))
         {
@@ -99,19 +99,25 @@ public class Implementation implements Calculator{
         }
         else
         {
+            // else if string is not min, max or gcd, it must
+            // be lcm, so calculate lcm
             ans = lcm(this.values);
         }
+        // pop all values off of the stack
         this.values.clear();
+        // push the final answer to the stack
         this.values.add(ans);
     }
 
+    // this function will pop from the stack
+    // return the value to the client
     public Integer pop() 
     {
-        int ans = this.values.get(this.values.size() - 1);
-        this.values.remove(this.values.size() - 1);
-        return ans;
+        return this.values.pop();
     }
-
+    
+    // this function determines if stack is empty
+    // by checking the size of the stack
     public boolean isEmpty()
     {
         if(this.values.size() == 0)
@@ -123,15 +129,15 @@ public class Implementation implements Calculator{
             return false;
         }
     }
+    // This is the delay pop function
     public Integer delayPop(Integer millis) 
-    {
+    {     
         int ans = -1;
         // sleep for x milliseconds
         try {
             Thread.sleep(millis);
             // then pop
-            ans = this.values.get(this.values.size() - 1);
-            this.values.remove(this.values.size() - 1);
+            ans = this.values.pop();
         } catch (Exception e) {
             // handle exception
             System.err.println("Server exception: " + e.toString());
