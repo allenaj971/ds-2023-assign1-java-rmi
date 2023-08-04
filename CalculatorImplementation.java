@@ -1,11 +1,11 @@
 import java.rmi.RemoteException;
 import java.util.*;
-import java.util.Collections;
 
 public class CalculatorImplementation implements Calculator {
-    // implementation for interface
-    // using arraylist as stack
-    private Stack<Integer> values = new Stack<>();
+    // to create the functionality for the unique client stack,
+    // the hashmap data structure was used, by mapping the user's
+    // ID to their respective stack. 
+    private Map<String, Stack<Integer>> values = new HashMap<>();
 
     // Constructor 
     public CalculatorImplementation() throws RemoteException{
@@ -32,7 +32,7 @@ public class CalculatorImplementation implements Calculator {
 
     // this is the helper function for the lcm 
     // function. it calculates the lcm for 2
-    // numbers
+    // numbers. 
     private static int lcmHelper(int x, int y)
     {
         return (x * y) / gcdHelper(x, y);
@@ -40,19 +40,19 @@ public class CalculatorImplementation implements Calculator {
 
     // LCM calculates the least common multiple of an
     // Stack of integers 
-    private static int lcm(Stack<Integer>arr)
+    private static int lcm(Stack<Integer>stack)
     {
         // we have the lcm set to -1 if 
-        // array is null
-        int ans = arr.get(0);
+        // stack is null
+        int ans = stack.get(0);
         // we calculate the lcm of the answer
         // and the next avaliable element in
         // the Stack
-        for (int i = 1; i < arr.size(); i++) {
+        for (int i = 1; i < stack.size(); i++) {
             // calculate the lcm of the current lcm 
             // and next element using the lcmHelper 
             // function
-            ans = lcmHelper(ans, arr.get(i));
+            ans = lcmHelper(ans, stack.get(i));
         }
         return ans;
     }
@@ -60,89 +60,132 @@ public class CalculatorImplementation implements Calculator {
     // this function calculates the greatest common divisor 
     // of the array by finding the gcd of the current gcd with 
     // the next avaliable element in the array 
-    private static int gcd(Stack<Integer>arr)
+    private static int gcd(Stack<Integer>stack)
     {   
-        int ans = arr.get(0);
-        for (int i = 1; i < arr.size(); i++) {
-            ans = gcdHelper(ans, arr.get(i));
+        int ans = stack.get(0);
+        for (int i = 1; i < stack.size(); i++) {
+            ans = gcdHelper(ans, stack.get(i));
         }
 
         return ans;
     }
 
     // PUBLIC METHODS ACCESSIBLE TO CLIENT
-    public void pushValue(Integer val) 
+
+    // This helper function creates a user ID for the user
+    // so that they have their own stack in the map.
+    // this method must be called prior to using other 
+    // public methods because they require the ID this method
+    // generates. 
+    public String createUserID()
     {
-        this.values.add(val);
-    }
-    // PROBLEMATIC PART
-    public void pushOperation(String operator)
-    {
-        // initialise answer
-        int ans;
-        if(operator.contains("min"))
-        {
-            // Use inbuilt functions to calculate minimum
-            // & maximum rather than increase complexity with my 
-            // own implmentation 
-            ans = Collections.min(this.values);
-        }
-        else if (operator.contains("max"))
-        {
-            ans = Collections.max(this.values);
-        }
-        else if (operator.contains("gcd"))
-        {
-            // calculate the greater common divisor
-            // if operator contains string "gcd"
-            ans = gcd(this.values);
-        }
-        else
-        {
-            // else if string is not min, max or gcd, it must
-            // be lcm, so calculate lcm
-            ans = lcm(this.values);
-        }
-        // pop all values off of the stack
-        this.values.clear();
-        // push the final answer to the stack
-        this.values.add(ans);
+        String Id = UUID.randomUUID().toString();
+        this.values.put(Id, new Stack<>());
+        return Id;
     }
 
-    // this function will pop from the stack
-    // return the value to the client
-    public Integer pop() 
+    // pushValue takes the id and val and searches for the 
+    // user's stack in the map. Once finding the user's stack
+    // pushes the value to the top of the stack. 
+    public void pushValue(String id, Integer val) 
     {
-        return this.values.pop();
+        this.values.get(id).push(val);
     }
-    
-    // this function determines if stack is empty
-    // by checking the size of the stack
-    public boolean isEmpty()
+
+    // pushOperation takes in the id and the operator. 
+    // based on the operator passed into the argument,
+    // we call the respective if statement, calculate the
+    // value based on the operator, clear the stack and push 
+    // the final result to the user's stack. 
+    public void pushOperation(String id, String operator)
     {
-        if(this.values.size() == 0)
+        // check if the stack has values
+        if(this.values.get(id).size() > 0)
         {
-            return true;
+            int ans;
+            if(operator.contains("min"))
+            {
+                // Use inbuilt functions to calculate minimum
+                // & maximum rather than increase complexity with my 
+                // own implmentation 
+                ans = Collections.min(this.values.get(id));
+            }
+            else if (operator.contains("max"))
+            {
+                ans = Collections.max(this.values.get(id));
+            }
+            else if (operator.contains("gcd"))
+            {
+                // calculate the greater common divisor
+                // if operator contains string "gcd"
+                ans = gcd(this.values.get(id));
+            }
+            else
+            {
+                // else if string is not min, max or gcd, it must
+                // be lcm, so calculate lcm
+                ans = lcm(this.values.get(id));
+            }
+            // pop all values off of the stack
+            this.values.get(id).clear();
+            // push the final answer to the stack
+            this.values.get(id).add(ans);
+        }
+    }
+
+    // this function takes the user's id and 
+    // pops the value from the stack if there 
+    // is a value on the stack, else returns null
+    public Integer pop(String id) 
+    {
+        if(this.values.get(id).size() == 0)
+        {
+            // return null because no
+            // value exists on the user's stack
+            return null;
         }
         else
         {
-            return false;
+            // else return the value to the client
+            return this.values.get(id).pop();
         }
     }
+    
+    // this function takes the user ID &
+    // determines whether their stack is empty
+    public boolean isEmpty(String id)
+    {
+        return this.values.get(id).isEmpty();
+    }
+
     // This is the delay pop function
-    public Integer delayPop(Integer millis) 
-    {     
-        int ans = -1;
-        // sleep for x milliseconds
-        try {
-            Thread.sleep(millis);
-            // then pop
-            ans = this.values.pop();
-        } catch (Exception e) {
-            // handle exception
-            System.err.println("Server exception: " + e.toString());
-	        e.printStackTrace();
+    // it takes the client ID and the time to sleep
+    // before returning the value at the top of the
+    // user's stack. 
+    public Integer delayPop(String id, Integer millis) 
+    {    
+        // check if user's stack size is greater than 0
+        // then only attempt to delayPop
+        if(this.values.get(id).size() > 0)
+        { 
+            int ans = -1;
+            // sleep for millis milliseconds
+            try {
+                Thread.sleep(millis);
+                
+                // return the value on the stack 
+                ans = this.values.get(id).pop();
+            } catch (Exception e) {
+                // handle exception by printing error
+                System.err.println("Server exception: " + e.toString());
+                e.printStackTrace();
+            }
+            return ans;
         }
-        return ans;
+        else
+        {
+            // else just return null
+            return null;
+        }
     }
 }

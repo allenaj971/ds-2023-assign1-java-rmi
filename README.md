@@ -27,3 +27,25 @@ This method will return true if the stack is empty, false otherwise.
 
 int delayPop(int millis); 
 This method will wait millis milliseconds before carrying out the pop operation as above.
+<!-- TIPS FROM THE LECTURE -->
+<!--
+    - Makefile: has to compile 
+    - Readme: 1. they want to how to run code
+    - Client: we should be able to use it to test out the functions required for the assignment
+    - Multiple Client at the same time: script which will start running clients at the same time 
+        - use multithreading to start multiple clients at the same time?
+    Bonus marks
+        - add ID (hashmap clientID -> stack)
+        - ***factory rmi***
+ -->
+
+<!-- ASSIGNMENT ARCHITECTURE -->
+<!-- how I went about structuring program -->
+<!-- how did I build the functionality required -->
+<!-- how I went about testing (unit/functionality testing, multiple-client testing) -->
+
+<!-- HOW TO COMPILE -->
+<!-- describe makefile commands -->
+
+<!-- HOW TO RUN YOUR CODE -->
+<!-- describe makefile commands -->

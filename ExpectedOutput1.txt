@@ -1,0 +1,8 @@
+true
+false
+false
+-10
+true
+1
+30
+60
