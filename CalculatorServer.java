@@ -7,7 +7,7 @@ public class CalculatorServer {
 	try {
 		// Create a skeleton of server
 	    CalculatorImplementation obj = new CalculatorImplementation();
-		// then we export the skelton to the rmiregistry so clients can see & access it
+		// then we export the skeleton to the rmiregistry so clients can see & access it
 	    Calculator stub = (Calculator) UnicastRemoteObject.exportObject(obj, 0);
 
 	    // Bind the remote object's stub in the registry

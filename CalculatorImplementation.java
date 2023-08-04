@@ -42,8 +42,6 @@ public class CalculatorImplementation implements Calculator {
     // Stack of integers 
     private static int lcm(Stack<Integer>stack)
     {
-        // we have the lcm set to -1 if 
-        // stack is null
         int ans = stack.get(0);
         // we calculate the lcm of the answer
         // and the next avaliable element in
@@ -99,7 +97,7 @@ public class CalculatorImplementation implements Calculator {
     // the final result to the user's stack. 
     public void pushOperation(String id, String operator)
     {
-        // check if the stack has values
+        // check if the stack has values, else do nothing
         if(this.values.get(id).size() > 0)
         {
             int ans;

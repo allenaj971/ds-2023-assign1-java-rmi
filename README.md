@@ -1,6 +1,6 @@
 # Distributed Systems - COMP SCI 3012 2023: Assignment 1
-Assignment Description
-Objective
+## Assignment Description
+### Objective
 To gain an understanding of how remote method invocation in Java works, synchronisation, and to develop a working example of a Java RMI system. This will be essential in developing future applications as you will quickly learn all of the pitfalls inherent in developing standards-based clients and multi-threaded servers.
 
 To gain an understanding of how a distributed system works, this first assignment phase involves developing a simple Java RMI application. This will involve developing both the client and server side of a distributed application: a simple calculator server.
@@ -27,17 +27,7 @@ This method will return true if the stack is empty, false otherwise.
 
 int delayPop(int millis); 
 This method will wait millis milliseconds before carrying out the pop operation as above.
-<!-- TIPS FROM THE LECTURE -->
-<!--
-    - Makefile: has to compile 
-    - Readme: 1. they want to how to run code
-    - Client: we should be able to use it to test out the functions required for the assignment
-    - Multiple Client at the same time: script which will start running clients at the same time 
-        - use multithreading to start multiple clients at the same time?
-    Bonus marks
-        - add ID (hashmap clientID -> stack)
-        - ***factory rmi***
- -->
+
 ## How to compile & run program:
 To initialise the rmi registry, you must run:
     make registry 
@@ -57,22 +47,22 @@ To clean up the compiled files run:
 
 ## ASSIGNMENT ARCHITECTURE
 ### Program files and structure
-The program has several files. I will describe their functionality below:
+The program has several files:
 - Calculator.java
-
+    This is the interface that describes the methods that the client can use to interface with the server (also the server skeleton). 
 - CalculatorClient.java
-
+    This is the main client program that performs the client's operations by sending its requests to the server using the client stub on the rmi registry. This also contains the multi-client testing (through the use of multithreading), input textfile processor and handler to facilitate the process of automating the multi-client testing. 
 - CalculatorImplementation.java
-
+    This contains the implementation for the methods defined in the Calculator.java file and helper functions for those methods. 
 - CalculatorServer.java
-
+    This is the server that the client interfaces through the client stub. We instantiate a new instance of the server, then export the skeleton and bind it to the rmi registry, so that the client can access the server. 
 - Makefile
-
+    Contains the commands to make compilation & running code easier using simple commands.
 - TestInput text files
+    These 4 files contain a list of inputs to the server, where each file represents a client's requests. 
+- Output text files & ExpectedOutput text files
+    This is the output after the client performs isEmpty, pop, or delayPop. This is used to compare against the ExpectedOutput files to find issues with functionality and stability.
 
-- Output text files
-
-- ExpectedOutput text files
 
 ### Functionality
 
