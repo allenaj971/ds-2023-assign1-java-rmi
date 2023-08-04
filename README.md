@@ -38,14 +38,51 @@ This method will wait millis milliseconds before carrying out the pop operation 
         - add ID (hashmap clientID -> stack)
         - ***factory rmi***
  -->
+## How to compile & run program:
+To initialise the rmi registry, you must run:
+    make registry 
 
-<!-- ASSIGNMENT ARCHITECTURE -->
-<!-- how I went about structuring program -->
-<!-- how did I build the functionality required -->
-<!-- how I went about testing (unit/functionality testing, multiple-client testing) -->
+To compile and run the server, you must run:
+    make compile
+    make server
 
-<!-- HOW TO COMPILE -->
-<!-- describe makefile commands -->
+To compile the automated client testing run:
+    make client
 
-<!-- HOW TO RUN YOUR CODE -->
-<!-- describe makefile commands -->
+To compare the output of the Client to the expected outputs run:
+    make outputCompare
+
+To clean up the compiled files run:
+    make clean
+
+## ASSIGNMENT ARCHITECTURE
+### Program files and structure
+The program has several files. I will describe their functionality below:
+- Calculator.java
+
+- CalculatorClient.java
+
+- CalculatorImplementation.java
+
+- CalculatorServer.java
+
+- Makefile
+
+- TestInput text files
+
+- Output text files
+
+- ExpectedOutput text files
+
+### Functionality
+
+
+### Testing 
+#### Acceptance testing: Verifying whether the whole system works as intended.
+#### Integration testing: Ensuring that software components or functions operate together.
+#### Unit testing: Validating that each software unit performs as expected. A unit is the smallest testable component of an application.
+#### Functional testing: Checking functions by emulating business scenarios, based on functional requirements. Black-box testing is a common way to verify functions.
+#### Performance testing: Testing how the software performs under different workloads. Load testing, for example, is used to evaluate performance under real-life load conditions.
+#### Regression testing: Checking whether new features break or degrade functionality. Sanity testing can be used to verify menus, functions and commands at the surface level, when there is no time for a full regression test.
+#### Stress testing: Testing how much strain the system can take before it fails. Considered to be a type of non-functional testing.
+#### Usability testing: Validating how well a customer can use a system or web application to complete a task.
