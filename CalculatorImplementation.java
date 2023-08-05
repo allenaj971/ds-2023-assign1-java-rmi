@@ -17,10 +17,10 @@ public class CalculatorImplementation implements Calculator {
     // & gcd operations on the Stack<Integer> values.
 
     // this is the helper function for the vectorGCD
-    // function. This will help find the global 
+    // function. This will return the global 
     // gcd, where x is the current gcd of the previous elements 
     // and y is the current element for which we are trying to find 
-    // the gcd of x & y
+    // the gcd of x & y.
     private static int gcdHelper(int x, int y)
     {   
         if(y == 0)
@@ -31,21 +31,21 @@ public class CalculatorImplementation implements Calculator {
     }
 
     // this is the helper function for the lcm 
-    // function. it calculates the lcm for 2
+    // function. it returns the lcm for 2
     // numbers. 
     private static int lcmHelper(int x, int y)
     {
         return (x * y) / gcdHelper(x, y);
     }
 
-    // LCM calculates the least common multiple of an
-    // Stack of integers 
+    // LCM returns the least common multiple of a
+    // stack of integers.
     private static int lcm(Stack<Integer>stack)
     {
         int ans = stack.get(0);
         // we calculate the lcm of the answer
         // and the next avaliable element in
-        // the Stack
+        // the stack
         for (int i = 1; i < stack.size(); i++) {
             // calculate the lcm of the current lcm 
             // and next element using the lcmHelper 
@@ -55,9 +55,9 @@ public class CalculatorImplementation implements Calculator {
         return ans;
     }
 
-    // this function calculates the greatest common divisor 
+    // this function returns the greatest common divisor 
     // of the array by finding the gcd of the current gcd with 
-    // the next avaliable element in the array 
+    // the next avaliable element in the array.
     private static int gcd(Stack<Integer>stack)
     {   
         int ans = stack.get(0);
@@ -74,17 +74,24 @@ public class CalculatorImplementation implements Calculator {
     // so that they have their own stack in the map.
     // this method must be called prior to using other 
     // public methods because they require the ID this method
-    // generates. 
+    // generates. Returns a unique user id used to access the
+    // stack. 
     public String createUserID()
     {
+        // create a unique ID for the user to access
+        // their stack
         String Id = UUID.randomUUID().toString();
+        // add a new stack with the new user ID
         this.values.put(Id, new Stack<>());
+        // return this id to the user so that
+        // they can access their stack by passing
+        // this ID to the other methods.
         return Id;
     }
 
     // pushValue takes the id and val and searches for the 
     // user's stack in the map. Once finding the user's stack
-    // pushes the value to the top of the stack. 
+    // pushes the value to the top of the stack. It returns void.
     public void pushValue(String id, Integer val) 
     {
         this.values.get(id).push(val);
@@ -151,6 +158,8 @@ public class CalculatorImplementation implements Calculator {
     
     // this function takes the user ID &
     // determines whether their stack is empty
+    // it will return true for empty stack, and 
+    // false otherwise. 
     public boolean isEmpty(String id)
     {
         return this.values.get(id).isEmpty();
@@ -159,7 +168,9 @@ public class CalculatorImplementation implements Calculator {
     // This is the delay pop function
     // it takes the client ID and the time to sleep
     // before returning the value at the top of the
-    // user's stack. 
+    // user's stack. this function will return the 
+    // popped value on the top of the stack after 
+    // millis milliseconds. 
     public Integer delayPop(String id, Integer millis) 
     {    
         // check if user's stack size is greater than 0
