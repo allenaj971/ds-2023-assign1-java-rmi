@@ -1,7 +1,9 @@
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
-	
+
+// This code is based on the template provided in the Java RMI
+// tutorial 
 public class CalculatorServer {
     public static void main(String args[]) {
 	try {
