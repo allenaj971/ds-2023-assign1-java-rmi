@@ -16,13 +16,13 @@ public class CalculatorClient implements Runnable {
 	}
     // the inputHandler performs the commands of the user with the user's id, stub and commands,
 	// which contains the command (i.e. 'lcm', 'pushOperation') and its associated
-	// value (if required for operations such as pushOperations and pushValues)
-	private void inputHandler(Calculator stub, String cmds[], String id)
+	// value (if required for operations such as pushOperations and pushValues). This returns void
+	private void inputHandler(String cmds[], String id)
 	{	
 		if(cmds[0].contains("pushOperation"))
 		{
 			try {
-				stub.pushOperation(id, cmds[1]);
+				this.stub.pushOperation(id, cmds[1]);
 			} catch (Exception e) {
 				System.err.println("Error: " + e.toString());
 			}
@@ -30,7 +30,7 @@ public class CalculatorClient implements Runnable {
 		else if(cmds[0].contains("pushValue"))
 		{
 			try {
-				stub.pushValue(id, Integer.valueOf(cmds[1]));
+				this.stub.pushValue(id, Integer.valueOf(cmds[1]));
 			} catch (Exception e) {
 				System.err.println("Error: " + e.toString());
 			}
@@ -38,7 +38,7 @@ public class CalculatorClient implements Runnable {
 		else if(cmds[0].contains("pop"))
 		{
 			try {
-				System.out.println(stub.pop(id));
+				System.out.println(this.stub.pop(id));
 			} catch (Exception e) {
 				System.err.println("Error: " + e.toString());
 			}
@@ -46,7 +46,7 @@ public class CalculatorClient implements Runnable {
 		else if(cmds[0].contains("isEmpty"))
 		{
 			try {
-				System.out.println(stub.isEmpty(id));
+				System.out.println(this.stub.isEmpty(id));
 			} catch (Exception e) {
 				System.err.println("Error: " + e.toString());
 			}
@@ -54,7 +54,7 @@ public class CalculatorClient implements Runnable {
 		else if(cmds[0].contains("delayPop"))
 		{
 			try {
-				System.out.println(stub.delayPop(id, Integer.valueOf(cmds[1])));
+				System.out.println(this.stub.delayPop(id, Integer.valueOf(cmds[1])));
 			} catch (Exception e) {
 				System.err.println("Error: " + e.toString());
 			}
@@ -62,7 +62,9 @@ public class CalculatorClient implements Runnable {
 	};
 
 	// the fileInputProcessor processes the text input file for
-	// each user's commands for automated testing. 
+	// each user's commands for automated testing. It takes the 
+	// user id so that it can be passed to the inputHandler
+	// to find the user's stack. This returns void
 	public void fileInputProcessor(String id)
 	{
 		try {
@@ -89,7 +91,10 @@ public class CalculatorClient implements Runnable {
 				String cmd="";
 				cmd+=in.nextLine();
 				// we split the String into command and value 
-				// and store them into the cmds[] array
+				// and store them into the cmds[] array. 
+				// cmds[0] contains the command keyword (pushOperation,
+				// pushValue, etc.) and cmds[1] stores the value (i.e.
+				// 'pushOperation lcm' or 'delayPop 1500')
 				String cmds[] = cmd.split(" ");
 				// exit if the user types into the command "exit"
 				// so the while loop exits
@@ -99,9 +104,10 @@ public class CalculatorClient implements Runnable {
 				}
 				// pass the user id, command and value to the inputHandler()
 				// function
-				inputHandler(this.stub, cmds, id);
+				inputHandler(cmds, id);
 			}
-			// close the input handler
+			// close the input handler once we are completed reading the entire
+			// input text file
 			in.close();
 		} catch (Exception e) {
 			System.err.println("Error: " + e.toString());
@@ -112,7 +118,8 @@ public class CalculatorClient implements Runnable {
 	// this is the multithread run function.
 	// from here, we generate a client id for
 	// each thread (representing each client)
-	// then we pass those client IDs to the fileInputProcessor
+	// then we pass those client IDs to the fileInputProcessor.
+	// this returns void
 	public void run()
 	{
 		String id = "empty";
