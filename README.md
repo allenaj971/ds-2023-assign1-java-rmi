@@ -7,7 +7,7 @@ To gain an understanding of how a distributed system works, this first assignmen
 
 The calculator server operates a stack and clients push values and operations on to the stack. While, usually, each client should have its own stack, you may use a single stack on the server. You may also assume that operations are always sensible: that is, we will only push an operator after pushing at least on value and we will only pop when there is a value on the stack. You may also assume that the operator provided will only be one of the four displayed types and that the values are always integers.
 
-## How to compile & run program:
+## HOW TO COMPILE AND RUN PROGRAM:
 To initialise the rmi registry, you must run:
 make registry 
 
