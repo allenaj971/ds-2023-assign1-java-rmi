@@ -9,20 +9,20 @@ The calculator server operates a stack and clients push values and operations on
 
 ## How to compile & run program:
 To initialise the rmi registry, you must run:
-    make registry 
+make registry 
 
 To compile and run the server, you must run:
-    make compile
-    make server
+make compile
+make server
 
 To compile the automated client testing run:
-    make client
+make client
 
 To compare the output of the Client to the expected outputs run:
-    make outputCompare
+make outputCompare
 
 To clean up the compiled files run:
-    make clean
+make clean
 
 ## ASSIGNMENT ARCHITECTURE
 ### Program files and structure
