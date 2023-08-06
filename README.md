@@ -69,9 +69,8 @@ This method take the user's id and will return true if the user's stack is empty
 This method will take the user's id and milliseconds & waits millis milliseconds before carrying out the pop operation as above.
 
 ### Testing 
-To perform testing
 #### Acceptance testing: Verifying whether the whole system works as intended.
-
+To perform acceptance testing, I have created an automated testing 
 #### Integration testing: Ensuring that software components or functions operate together.
 #### Unit testing: Validating that each software unit performs as expected. A unit is the smallest testable component of an application.
 #### Functional testing: Checking functions by emulating business scenarios, based on functional requirements. Black-box testing is a common way to verify functions.
