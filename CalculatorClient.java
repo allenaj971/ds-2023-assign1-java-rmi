@@ -14,10 +14,10 @@ public class CalculatorClient implements Runnable {
 	{
 		this.stub = stub;
 	}
-    // the inputHandler performs the commands of the user with the user's id, stub and commands,
+    // the commandExecutor performs the commands of the user with the user's id, stub and commands,
 	// which contains the command (i.e. 'lcm', 'pushOperation') and its associated
 	// value (if required for operations such as pushOperations and pushValues). This returns void
-	private void inputHandler(String cmds[], String id)
+	private void commandExecutor(String cmds[], String id)
 	{	
 		if(cmds[0].contains("pushOperation"))
 		{
@@ -63,7 +63,7 @@ public class CalculatorClient implements Runnable {
 
 	// the fileInputProcessor processes the text input file for
 	// each user's commands for automated testing. It takes the 
-	// user id so that it can be passed to the inputHandler
+	// user id so that it can be passed to the commandExecutor
 	// to find the user's stack. This returns void
 	public void fileInputProcessor(String id)
 	{
@@ -102,9 +102,9 @@ public class CalculatorClient implements Runnable {
 				{
 					exit = true;
 				}
-				// pass the user id, command and value to the inputHandler()
+				// pass the user id, command and value to the commandExecutor()
 				// function
-				inputHandler(cmds, id);
+				commandExecutor(cmds, id);
 			}
 			// close the input handler once we are completed reading the entire
 			// input text file
