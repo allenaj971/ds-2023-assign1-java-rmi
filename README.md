@@ -43,7 +43,8 @@ The program has several files:
     This is the output after the client performs isEmpty, pop, or delayPop. This is used to compare against the ExpectedOutput files to find issues with functionality and stability.
 
 ### Functionality
-I have implemented the base functionality (pushValue, pushOperation, pop, isEmpty, & delayPop) plus the bonus marks functionality (where the clients have their own stack on the server: each client accesses their own stack, rather than the common one)
+I have implemented the base functionality (pushValue, pushOperation, pop, isEmpty, & delayPop) plus the bonus marks functionality (where the clients have their own stack on the server: each client accesses their own stack, rather than the common one). How I tested them to ensure correct functionality and stability of the client and server is explained in the Testing section.
+
 #### Key Features, Interface & Return Values
 - String createUserID()
 This method returns a unique user ID so that the user can access their own stack on the server, rather than utilising a shared stack. This implements the bonus marks functionality.
@@ -69,12 +70,21 @@ This method take the user's id and will return true if the user's stack is empty
 This method will take the user's id and milliseconds & waits millis milliseconds before carrying out the pop operation as above.
 
 ### Testing 
-#### Acceptance testing: Verifying whether the whole system works as intended.
-To perform acceptance testing, I have created an automated testing 
+#### Unit/Functionality testing: Validating that each software unit performs as expected. A unit is the smallest testable component of an application.
+To perform unit testing, I have created an automated client testing which takes in 4 files as input (representing 4 clients) and produces an file called Output.txt. The input files contain all the commands as per the assignment description, in different orders, and illegal inputs to the server (which I have programmed to return null, such as in the instance of popping an empty user stack).
+
+Each unit (createUserID, pushValue, pushOperation, pop, isEmpty, delayPop) was tested by the 4 files by initialising 4 threads in the automated client testing file CalculatorClient.java. Then for each of the 4 threads/client, we pass their input files into the fileInputProcessor() function, which takes the file inputs and extracts the commands and their respective values and then execute the commands in the commandExecutor() function, which sends those requests to the server. 
+
+From there, we can run make outputCompare to compare the actual output to the expected outputs, to verify the whole system works as intended. The reason for 2 expected output files is due to the uncertainty in timing of outputs, so some threads may execute than others, causing varying outputs. 
+
+In this case, the Output.txt matches the ExpectedOutput1.txt because the threads have happened to execute in that order in this instance. Therefore, the program has passed the unit/functionality testing. 
+
 #### Integration testing: Ensuring that software components or functions operate together.
-#### Unit testing: Validating that each software unit performs as expected. A unit is the smallest testable component of an application.
-#### Functional testing: Checking functions by emulating business scenarios, based on functional requirements. Black-box testing is a common way to verify functions.
-#### Performance testing: Testing how the software performs under different workloads. Load testing, for example, is used to evaluate performance under real-life load conditions.
-#### Regression testing: Checking whether new features break or degrade functionality. Sanity testing can be used to verify menus, functions and commands at the surface level, when there is no time for a full regression test.
-#### Stress testing: Testing how much strain the system can take before it fails. Considered to be a type of non-functional testing.
-#### Usability testing: Validating how well a customer can use a system or web application to complete a task.
+We have 2 main parts, clients & server. Since the client is able to successfully send requests to the server, and the server responds with 
+a response which matches the expected output file, which is part of unit/functionality testing, it can be concluded that the programs have passed the integration testing. 
+
+#### Stress testing: Testing how much strain the system can take before it fails.
+To stress test the server, I have initialised 4 threads (representing 4 clients). This is executed simultaneously, putting a load on the server to ensure that it can handle multiple clients sending requests to it. Since the client or server did not crash during automated testing and the actual output matches the expected output, it can be concluded that the programs passed stress testing.
+
+#### Acceptance testing: Verifying whether the whole system works as intended.
+Considering the unit/functionality testing, integration and stress testing results, it can be concluded that the whole systems works as intended and is performing well. Therefore, it passes acceptance testing. 
